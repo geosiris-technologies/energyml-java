@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.geosiris</groupId>
-    <artifactId>energyml.[YOUR_PKG][YOUR_VERSION]</artifactId>
+    <artifactId>energyml-${env.PKG_NAME}${env.PKG_VERSION}</artifactId>
     <name>RESQML</name>
     <version>1.0.0</version>
     <organization>
@@ -41,6 +41,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>xjc</id>
@@ -69,6 +70,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <configuration>
