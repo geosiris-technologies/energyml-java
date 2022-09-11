@@ -41,7 +41,7 @@ jobs:
           PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B deploy --file pom.xml
       
     - name: Content list 3
       run: ls ${{ github.workspace }}
