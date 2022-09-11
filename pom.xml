@@ -52,7 +52,8 @@
                                 <xjbSource>src/main/xjb/binding.xjb</xjbSource>
                             </xjbSources>
                             <sources>
-                                <source>src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd</source>
+                                <!-- <source>src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd</source> -->
+                                <source>${env.PATH_TO_SCHEMAS}</source>
                             </sources>
                             <xjcSourceExcludeFilters>
                                 <filter implementation="org.codehaus.mojo.jaxb2.shared.filters.pattern.PatternFileFilter">
