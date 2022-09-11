@@ -29,7 +29,7 @@ jobs:
       run : wget http://geosiris.com/wp-content/uploads/2022/09/resqml_v2.0.1.zip -P ${{ github.workspace }}
 
     - name: Unzip
-      run: 7z x ${GITHUB_WORKSPACE}/resqml_v2.0.1.zip -o${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1
+      run: 7z x ${GITHUB_WORKSPACE}/resqml_v2.0.1.zip -o${{ github.workspace }}/src/main/xsd/energyml/resqml/
 
     - name: Write settings 
       uses: s4u/maven-settings-action@v2.6.0
