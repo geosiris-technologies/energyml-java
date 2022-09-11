@@ -21,21 +21,24 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
-        distribution: 'temurin'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        distribution: 'temurin'       
+          
+    - name: Download COMMON v2.0
+      run : wget http://geosiris.com/wp-content/uploads/2022/09/common_v2.0.zip -P ${{ github.workspace }}
   
-    - name: Download
+    - name: Unzip COMMON v2.0
+      run: 7z x ${GITHUB_WORKSPACE}/common_v2.0.zip -o${{ github.workspace }}/src/main/xsd/energyml/common/
+      
+    - name: Download RESQML v2.0.1
       run : wget http://geosiris.com/wp-content/uploads/2022/09/resqml_v2.0.1.zip -P ${{ github.workspace }}
 
-    - name: Unzip
+    - name: Unzip RESQML v2.0.1
       run: 7z x ${GITHUB_WORKSPACE}/resqml_v2.0.1.zip -o${{ github.workspace }}/src/main/xsd/energyml/resqml/
-
         
     - name: Content list 1
-      run: ls ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1
+      run: ls ${{ github.workspace }}/src/main/xsd/energyml/common/v2.0
     - name: Content list 2
-      run: ls ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/      
+      run: ls ${{ github.workspace }}/src/main/xsd/energyml/common/v2.0/xsd_schemas/      
 
 
     - name: Build with Maven
