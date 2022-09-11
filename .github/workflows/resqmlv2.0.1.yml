@@ -35,10 +35,11 @@ jobs:
     - name: Content list 1
       run: ls ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1
     - name: Content list 2
-      run: ls ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/
-      
+      run: ls ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/      
       env:
           PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
+          PKG_NAME: resqml
+          PKG_VERSION: 201
 
     - name: Build with Maven
       run: mvn -B deploy --file pom.xml
