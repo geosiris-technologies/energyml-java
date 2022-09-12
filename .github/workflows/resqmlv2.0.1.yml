@@ -23,7 +23,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
-        distribution: 'temurin'       
+        distribution: 'temurin'
           
     - name: Download COMMON v2.0
       run : wget http://geosiris.com/wp-content/uploads/2022/09/common_v2.0.zip -P ${{ github.workspace }}
@@ -37,9 +37,18 @@ jobs:
     - name: Unzip RESQML v2.0.1
       run: 7z x ${GITHUB_WORKSPACE}/resqml_v2.0.1.zip -o${{ github.workspace }}/src/main/xsd/energyml/resqml/
         
+    # - name: Verify with Maven
+    #   run: mvn -B verify -e -V --file pom.xml
+    #   env:
+    #     PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
+    #     PKG_NAME: resqml
+    #     PKG_VERSION: 201
+
+    - name: Setting up xjb
+      run : cp ${{ github.workspace }}/.github/workflows/binding-resqml2_0_1.xjb ${{ github.workspace }}/src/main/xjb/binding.xjb
+
     - name: Build with Maven
-      #mvn -B deploy --file pom.xml
-      run: mvn -B verify -e -V --file pom.xml
+      run: mvn -B deploy --file pom.xml
       env:
         PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
         PKG_NAME: resqml
