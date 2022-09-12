@@ -45,7 +45,7 @@ jobs:
     #     PKG_VERSION: 201
 
     - name: Setting up xjb
-      run : cp ${{ github.workspace }}/.github/workflows/binding-resqml2_0_1.xjb ${{ github.workspace }}/src/main/xjb/binding.xjb
+      run : cp ${{ github.workspace }}/.github/workflows/xjb/binding-resqml2_0_1.xjb ${{ github.workspace }}/src/main/xjb/binding.xjb
 
     - name: Build with Maven
       run: mvn -B deploy --file pom.xml
