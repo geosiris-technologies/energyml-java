@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.geosiris</groupId>
     <artifactId>energyml-${env.PKG_NAME}${env.PKG_VERSION}</artifactId>
-    <name>${env.PKG_NAME}$</name>
+    <name>${env.PKG_NAME}</name>
     <version>1.0.0</version>
     <organization>
         <name>Geosiris</name>
@@ -50,10 +50,9 @@
                         </goals>
                         <configuration>
                             <xjbSources>
-                                <xjbSource>src/main/xjb/binding.xjb</xjbSource>
+                                <xjbSource>${env.PATH_TO_XJB}</xjbSource>
                             </xjbSources>
                             <sources>
-                                <!-- <source>src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd</source>-->
                                 <source>${env.PATH_TO_SCHEMAS}</source>
                             </sources>
                             <xjcSourceExcludeFilters>
@@ -78,8 +77,8 @@
                             <workingDirectory>scripts/</workingDirectory>
                             <arguments>
                                 <argument>renamePkg.py</argument>
-                                <argument>common::2.0</argument>
-                                <argument>resqml::2.0.1</argument>
+                                <argument>common::${env.COMMON_VERSION_DOT}</argument>
+                                <argument>${env.PKG_NAME}::${env.PKG_VERSION_DOT}</argument>
                             </arguments>
                         </configuration>
                         <id>python-build</id>

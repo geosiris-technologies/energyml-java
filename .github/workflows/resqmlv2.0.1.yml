@@ -44,13 +44,13 @@ jobs:
     #     PKG_NAME: resqml
     #     PKG_VERSION: 201
 
-    - name: Setting up xjb
-      run : cp ${{ github.workspace }}/.github/workflows/xjb/binding-resqml2_0_1.xjb ${{ github.workspace }}/src/main/xjb/binding.xjb
-
     - name: Build with Maven
-      run: mvn -B deploy --file pom.xml
+      run: mvn -s ci-settings.xml -B deploy --file pom.xml
       env:
         PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
+        PATH_TO_XJB: ${{ github.workspace }}/src/main/xjb/binding-resqml2_0_1.xjb
         PKG_NAME: resqml
         PKG_VERSION: 201
+        PKG_VERSION_DOT: 2.0.1
+        COMMON_VERSION_DOT: 2.0
       
