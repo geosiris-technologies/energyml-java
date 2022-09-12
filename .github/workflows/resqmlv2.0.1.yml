@@ -27,6 +27,8 @@ jobs:
         server-id: ossrh
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
+        gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        gpg-passphrase: MAVEN_GPG_PASSPHRASE
           
     - name: Download COMMON v2.0
       run : wget http://geosiris.com/wp-content/uploads/2022/09/common_v2.0.zip -P ${{ github.workspace }}
@@ -46,12 +48,20 @@ jobs:
     #     PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
     #     PKG_NAME: resqml
     #     PKG_VERSION: 201
-
+    - name: build artifact
+        run: mvn clean package
+    - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "${{ github.workspace }}/target/*.jar"
+          token: ${{ secrets.GITHUB_TOKEN }}
     - name: Build with Maven
-      run: mvn -B deploy --file pom.xml
+      run: mvn -B --no-transfer-progress --file pom.xml deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
         PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
         PATH_TO_XJB: ${{ github.workspace }}/src/main/xjb/binding-resqml2_0_1.xjb
         PKG_NAME: resqml
