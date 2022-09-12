@@ -43,14 +43,14 @@ jobs:
       run: 7z x ${GITHUB_WORKSPACE}/resqml_v2.0.1.zip -o${{ github.workspace }}/src/main/xsd/energyml/resqml/
 
     - name: build artifact
-        run: mvn clean package
+      run: mvn clean package
 
     - name: Create release
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          artifacts: "${{ github.workspace }}/target/*.jar"
-          token: ${{ secrets.GITHUB_TOKEN }}
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifacts: "${{ github.workspace }}/target/*.jar"
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build with Maven
       run: mvn -B --no-transfer-progress --file pom.xml deploy
