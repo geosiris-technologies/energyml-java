@@ -1,0 +1,8 @@
+<jxb:bindings jxb:extensionBindingPrefixes="xjc" version="3.0" xmlns:eml="http://www.energistics.org/energyml/data/commonv2" xmlns:jxb="https://jakarta.ee/xml/ns/jaxb" xmlns:xjc="https://jakarta.ee/xml/ns/jaxb/xjc" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <!--<jxb:bindings ><jxb:globalBindings typesafeEnumMaxMembers="2000" typesafeEnumMemberName="generateName"/></jxb:bindings>-->
+        <jxb:globalBindings typesafeEnumMaxMembers="2000">
+                <!--  <jxb:javaType xmlType="PositiveLong" name="java.math.BigInteger" />-->
+                <!-- <jxb:javaType name="java.lang.Long" xmlType="eml:NonNegativeLong"/>
+                <jxb:javaType name="java.lang.String" xmlType="eml:String64"/> -->
+        </jxb:globalBindings>
+</jxb:bindings>

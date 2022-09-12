@@ -1,0 +1,35 @@
+<jxb:bindings jxb:extensionBindingPrefixes="xjc" version="3.0" xmlns:eml="http://www.energistics.org/energyml/data/commonv2" xmlns:jxb="https://jakarta.ee/xml/ns/jaxb" xmlns:xjc="https://jakarta.ee/xml/ns/jaxb/xjc" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <jxb:globalBindings typesafeEnumMaxMembers="2000">
+                <!-- <jxb:javaType name="java.lang.Long" xmlType="eml:NonNegativeLong"/>
+                <jxb:javaType name="java.lang.String" xmlType="eml:String64"/> -->
+        </jxb:globalBindings>
+        <jxb:bindings node="/xs:schema" schemaLocation="../xsd/energyml/common/v2.0/xsd_schemas/gml/3.2.1/gml.xsd">
+                <jxb:bindings node="//xs:schema//xs:element[@name='secondDefiningParameter']">
+                        <jxb:class name="SecondDefiningParameterDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='sphericalCS']">
+                        <jxb:class name="SphericalCSDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='ellipsoidalCS']">
+                        <jxb:class name="EllipsoidalCSDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='geodeticDatum']">
+                        <jxb:class name="GeodeticDatumDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='primeMeridian']">
+                        <jxb:class name="PrimeMeridianDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='ellipsoid']">
+                        <jxb:class name="EllipsoidDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='verticalCS']">
+                        <jxb:class name="VerticalCSDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='verticalDatum']">
+                        <jxb:class name="VerticalDatumDoc"/>
+                </jxb:bindings>
+                <jxb:bindings node="//xs:schema//xs:element[@name='cartesianCS']">
+                        <jxb:class name="CartesianCSDoc"/>
+                </jxb:bindings>
+        </jxb:bindings>
+</jxb:bindings>
