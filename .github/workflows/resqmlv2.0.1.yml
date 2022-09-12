@@ -44,6 +44,13 @@ jobs:
 
     - name: build artifact
       run: mvn clean package
+      env:
+        PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
+        PATH_TO_XJB: ${{ github.workspace }}/src/main/xjb/binding-resqml2_0_1.xjb
+        PKG_NAME: resqml
+        PKG_VERSION: 201
+        PKG_VERSION_DOT: "2.0.1"
+        COMMON_VERSION_DOT: "2.0"
 
     - name: Create release
       uses: ncipollo/release-action@v1
