@@ -2,19 +2,27 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.geosiris</groupId>
     <artifactId>energyml-${env.PKG_NAME}${env.PKG_VERSION}</artifactId>
-    <name>${env.PKG_NAME}</name>
+    <name>${project.groupId}:${project.artifactId}</name>
     <version>1.0.0</version>
     <organization>
         <name>Geosiris</name>
         <url>http://www.geosiris.com</url>
     </organization>
+    <url>https://github.com/geosiris-technologies/energyml-java-generator</url>
     <description>API to interract with energyml (resqml, witml, prodml)</description>
     <developers>
         <developer>
             <name>Valentin Gauthier</name>
             <email>valentin.gauthier@geosiris.com</email>
+            <organization>Geosiris</organization>
+            <organizationUrl>http://www.geosiris.com</organizationUrl>
         </developer>
     </developers>
+    <scm>
+        <connection>scm:git:git://github.com/geosiris-technologies/energyml-java-generator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:geosiris-technologies/energyml-java-generator.git</developerConnection>
+        <url>https://github.com/geosiris-technologies/energyml-java-generator/tree/main</url>
+    </scm>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
