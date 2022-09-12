@@ -25,6 +25,7 @@ if __name__ == "__main__":
     pkg_versions = {}
 
     for arg in sys.argv[1:]:
+        print("ARG found : " + arg)
         result = re.search(r"([\w]+)::(\d[\d\.]+)", arg)
         pkg_versions[result.group(1)] = result.group(2).replace('.', '_')
 
