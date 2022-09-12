@@ -41,21 +41,17 @@ jobs:
 
     - name: Unzip RESQML v2.0.1
       run: 7z x ${GITHUB_WORKSPACE}/resqml_v2.0.1.zip -o${{ github.workspace }}/src/main/xsd/energyml/resqml/
-        
-    # - name: Verify with Maven
-    #   run: mvn -B verify -e -V --file pom.xml
-    #   env:
-    #     PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd
-    #     PKG_NAME: resqml
-    #     PKG_VERSION: 201
+
     - name: build artifact
         run: mvn clean package
+
     - name: Create release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           artifacts: "${{ github.workspace }}/target/*.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build with Maven
       run: mvn -B --no-transfer-progress --file pom.xml deploy
       env:
