@@ -7,13 +7,6 @@ on:
   pull_request:
     branches: main
 
-name: Releases
-
-on: 
-  push:
-    tags:
-    - '*'
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -58,12 +51,12 @@ jobs:
         PKG_VERSION_DOT: "2.0.1"
         COMMON_VERSION_DOT: "2.0"
 
-    - name: Create release
-      uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        artifacts: "${{ github.workspace }}/target/*.jar"
-        token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Create release
+    #   uses: ncipollo/release-action@v1
+    #   with:
+    #     allowUpdates: true
+    #     artifacts: "${{ github.workspace }}/target/*.jar"
+    #     token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build with Maven
       run: mvn -B --no-transfer-progress --file pom.xml deploy
