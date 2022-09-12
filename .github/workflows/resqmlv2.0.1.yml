@@ -51,6 +51,6 @@ jobs:
         PATH_TO_XJB: ${{ github.workspace }}/src/main/xjb/binding-resqml2_0_1.xjb
         PKG_NAME: resqml
         PKG_VERSION: 201
-        PKG_VERSION_DOT: 2.0.1
-        COMMON_VERSION_DOT: 2.0
+        PKG_VERSION_DOT: "2.0.1"
+        COMMON_VERSION_DOT: "2.0"
       
