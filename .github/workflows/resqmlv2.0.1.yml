@@ -28,7 +28,14 @@ jobs:
         server-password: MAVEN_PASSWORD
         gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+    - id: install-secret-key
+    name: Install gpg secret key
+    run: |
+      cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           
+    # gpg --list-secret-keys --keyid-format LONG
+
     - name: Download COMMON v2.0
       run : wget http://geosiris.com/wp-content/uploads/2022/09/common_v2.0.zip -P ${{ github.workspace }}
   
