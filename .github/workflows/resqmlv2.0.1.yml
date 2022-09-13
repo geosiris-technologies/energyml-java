@@ -1,4 +1,4 @@
-name: Maven Package
+name: Maven Package Resqml v2.0.1
 
 on:
   release:

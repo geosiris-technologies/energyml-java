@@ -1,4 +1,4 @@
-name: Maven Package
+name: Maven Package OPC
 
 on:
   release:
@@ -37,7 +37,7 @@ jobs:
       run : wget http://geosiris.com/wp-content/uploads/2022/09/opc.zip -P ${{ github.workspace }}
   
     - name: Unzip OPC
-      run: 7z x ${GITHUB_WORKSPACE}/opc.zip -o${{ github.workspace }}/src/main/xsd/energyml/opc/
+      run: 7z x ${GITHUB_WORKSPACE}/opc.zip -o${{ github.workspace }}/src/main/xsd/energyml/
       
     - name: Build with Maven
       run: mvn -B --file pom.xml clean deploy -P release
