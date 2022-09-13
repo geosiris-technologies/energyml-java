@@ -46,6 +46,33 @@
     </properties>
     <build>
         <plugins>
+            <!-- Enable xsd distant downloading -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>set-additional-system-properties</id>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <properties>
+                        <property>
+                            <name>javax.xml.accessExternalSchema</name>
+                            <value>file,http</value>
+                        </property>
+                        <property>
+                            <name>javax.xml.accessExternalDTD</name>
+                            <value>file,http</value>
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
+            <!-- Generating class from xsd -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
@@ -74,6 +101,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Renaming packages -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -86,8 +114,6 @@
                             <arguments>
                                 <argument>renamePkg.py</argument>
                                 <argument>${env.RENAME_SCRIPT_ARG}</argument>
-                                <!-- <argument>common::${env.COMMON_VERSION_DOT}</argument>
-                                <argument>${env.PKG_NAME}::${env.PKG_VERSION_DOT}</argument> -->
                             </arguments>
                         </configuration>
                         <id>python-build</id>
@@ -98,6 +124,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Maven central publish -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
