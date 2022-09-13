@@ -192,6 +192,10 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <doclint>none</doclint>
+                            <!-- to avoid generation fail if javadoc errors in java files -->
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
