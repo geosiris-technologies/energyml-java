@@ -85,8 +85,9 @@
                             <workingDirectory>scripts/</workingDirectory>
                             <arguments>
                                 <argument>renamePkg.py</argument>
-                                <argument>common::${env.COMMON_VERSION_DOT}</argument>
-                                <argument>${env.PKG_NAME}::${env.PKG_VERSION_DOT}</argument>
+                                <argument>${env.RENAME_SCRIPT_ARG}</argument>
+                                <!-- <argument>common::${env.COMMON_VERSION_DOT}</argument>
+                                <argument>${env.PKG_NAME}::${env.PKG_VERSION_DOT}</argument> -->
                             </arguments>
                         </configuration>
                         <id>python-build</id>
