@@ -1,20 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.geosiris</groupId>
-    <artifactId>energyml.[YOUR_PKG][YOUR_VERSION]</artifactId>
-    <name>RESQML</name>
+    <artifactId>energyml-${env.PKG_NAME}${env.PKG_VERSION}</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <version>1.0.0</version>
     <organization>
         <name>Geosiris</name>
         <url>http://www.geosiris.com</url>
     </organization>
+    <url>https://github.com/geosiris-technologies/energyml-java-generator</url>
     <description>API to interract with energyml (resqml, witml, prodml)</description>
     <developers>
         <developer>
             <name>Valentin Gauthier</name>
             <email>valentin.gauthier@geosiris.com</email>
+            <organization>Geosiris</organization>
+            <organizationUrl>http://www.geosiris.com</organizationUrl>
         </developer>
     </developers>
+    <scm>
+        <connection>scm:git:git://github.com/geosiris-technologies/energyml-java-generator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:geosiris-technologies/energyml-java-generator.git</developerConnection>
+        <url>https://github.com/geosiris-technologies/energyml-java-generator/tree/main</url>
+    </scm>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -38,9 +46,37 @@
     </properties>
     <build>
         <plugins>
+            <!-- Enable xsd distant downloading -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>set-additional-system-properties</id>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <properties>
+                        <property>
+                            <name>javax.xml.accessExternalSchema</name>
+                            <value>file,http</value>
+                        </property>
+                        <property>
+                            <name>javax.xml.accessExternalDTD</name>
+                            <value>file,http</value>
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
+            <!-- Generating class from xsd -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>xjc</id>
@@ -49,10 +85,10 @@
                         </goals>
                         <configuration>
                             <xjbSources>
-                                <xjbSource>src/main/xjb/binding.xjb</xjbSource>
+                                <xjbSource>${env.PATH_TO_XJB}</xjbSource>
                             </xjbSources>
                             <sources>
-                                <source>src/main/xsd/energyml/resqml/v2.0.1/xsd_schemas/ResqmlAllObjects.xsd</source>
+                                <source>${env.PATH_TO_SCHEMAS}</source>
                             </sources>
                             <xjcSourceExcludeFilters>
                                 <filter implementation="org.codehaus.mojo.jaxb2.shared.filters.pattern.PatternFileFilter">
@@ -65,9 +101,11 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Renaming packages -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <configuration>
@@ -75,8 +113,7 @@
                             <workingDirectory>scripts/</workingDirectory>
                             <arguments>
                                 <argument>renamePkg.py</argument>
-                                <argument>common::2.0</argument>
-                                <argument>resqml::2.0.1</argument>
+                                <argument>${env.RENAME_SCRIPT_ARG}</argument>
                             </arguments>
                         </configuration>
                         <id>python-build</id>
@@ -87,22 +124,46 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Maven central publish -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.1</version>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>deploy</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <doclint>none</doclint>
-                    <!-- to avoid generation fail if javadoc errors in java files -->
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
+            </plugin>
+            <!-- Sign with PGP -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -120,13 +181,52 @@
         </dependency>
     </dependencies>
     <distributionManagement>
-        <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
-        </repository>
         <snapshotRepository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <doclint>none</doclint>
+                            <!-- to avoid generation fail if javadoc errors in java files -->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

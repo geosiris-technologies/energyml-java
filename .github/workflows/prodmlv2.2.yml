@@ -1,0 +1,58 @@
+name: Maven Package Prodml v2.2
+
+on:
+  release:
+    types: [created]
+
+  pull_request:
+    branches: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        server-id: ossrh
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
+        gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+    - id: install-secret-key
+      name: Install gpg secret key
+      run: cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+
+    - name: Download COMMON v2.3
+      run : wget http://geosiris.com/wp-content/uploads/2022/09/common_v2.3.zip -P ${{ github.workspace }}
+  
+    - name: Unzip COMMON v2.3
+      run: 7z x ${GITHUB_WORKSPACE}/common_v2.3.zip -o${{ github.workspace }}/src/main/xsd/energyml/common/
+      
+    - name: Download PRODML v2.2
+      run : wget http://geosiris.com/wp-content/uploads/2022/09/prodml_v2.2.zip -P ${{ github.workspace }}
+
+    - name: Unzip PRODML v2.2
+      run: 7z x ${GITHUB_WORKSPACE}/prodml_v2.2.zip -o${{ github.workspace }}/src/main/xsd/energyml/prodml/
+
+    - name: Build with Maven
+      run: mvn -B --file pom.xml clean deploy -P release
+      env:
+        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+        PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/prodml/v2.2/xsd_schemas/ProdmlAllObjects.xsd
+        PATH_TO_XJB: ${{ github.workspace }}/src/main/xjb/binding-prodml2_2.xjb
+        PKG_NAME: prodml
+        PKG_VERSION: 22
+        RENAME_SCRIPT_ARG: "common::2.3 prodml::2.2"

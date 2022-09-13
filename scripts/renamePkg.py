@@ -25,8 +25,10 @@ if __name__ == "__main__":
     pkg_versions = {}
 
     for arg in sys.argv[1:]:
-        result = re.search(r"([\w]+)::(\d[\d\.]+)", arg)
-        pkg_versions[result.group(1)] = result.group(2).replace('.', '_')
+        print("ARG found : " + arg)
+        if arg is not None and "::" in arg:
+            result = re.search(r"([\w]+)::(\d[\d\.]+)", arg)
+            pkg_versions[result.group(1)] = result.group(2).replace('.', '_')
 
     for pkg, version in pkg_versions.items():
         print(pkg, ":", version)
@@ -46,13 +48,14 @@ if __name__ == "__main__":
                 with open(file=filePath, mode='r', encoding='utf8') as f:
                     f_content = f.read()
 
-                # f_content = re.sub(r'org([\./])energistics[\./]energyml[\./]data[\./](common|resqml|prodml|witsml)v2', r'energyml\g<1>\g<2>2_2', f_content)
+                # OPC Replacement
+                f_content = re.sub(rf'org(?P<separator>[\./])openxmlformats[\./]schemas[\./]_package[\./]_2006[\./](metadata[\./])?(?P<package>relationships|content_types|core_properties)', rf'energyml\g<separator>\g<package>', f_content)
 
+                # Packages Replacement
                 for pkg, version in pkg_versions.items():
                     f_content = re.sub(rf'org(?P<separator>[\./])energistics[\./]energyml[\./]data[\./](?P<package>{pkg}){rgx_suffix_pkg}', rf'energyml\g<separator>\g<package>{version}', f_content)
-                
-                # in comments
-                for pkg, version in pkg_versions.items():
+                    
+                    # In class comments
                     f_content = re.sub(r'type="{http://www.energistics.org/energyml[\./]data[\./](?P<package>'+pkg+r')'+rgx_suffix_pkg+r'}(?P<className>[\w]+)"', rf'type="energyml.\g<package>{version}.\g<className>"', f_content)
 
                 with open(file=filePath, mode='w', encoding='utf8') as f:
@@ -68,3 +71,12 @@ if __name__ == "__main__":
                     print("\t-->", newDir)
                     shutil.move(directoryPath, newDir)
                     break
+
+            # For OPC
+            if re.match(rf"relationships$", directory):
+                directoryPath = os.path.join(r, directory).replace("\\", "/")
+                newDir = re.sub(rf'org(?P<separator>[\./])openxmlformats[\./]schemas[\./]_package[\./]_2006[\./](metadata[\./])?(?P<package>relationships|content_types|core_properties)', rf'energyml\g<separator>\g<package>', directoryPath)
+                print("DIR : ", directoryPath)
+                print("\t-->", newDir)
+                shutil.move(directoryPath, newDir)
+                break
