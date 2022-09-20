@@ -27,8 +27,8 @@ if __name__ == "__main__":
     for arg in sys.argv[1:]:
         print("ARG found : " + arg)
         if arg is not None and "::" in arg:
-            result = re.search(r"([\w]+)::(\d[\d\.]+)", arg)
-            pkg_versions[result.group(1)] = result.group(2).replace('.', '_')
+            for result in re.findall(r"([\w]+)::([\d\w\.]+)", arg):
+                pkg_versions[result[0]] = result[1].replace('.', '_')
 
     for pkg, version in pkg_versions.items():
         print(pkg, ":", version)

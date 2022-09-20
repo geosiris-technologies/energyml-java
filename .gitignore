@@ -13,3 +13,4 @@ target/*
 .vscode/
 *.war
 .idea/
+local-config.txt
