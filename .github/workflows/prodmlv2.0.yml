@@ -52,7 +52,7 @@ jobs:
         MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
         PATH_TO_SCHEMAS: ${{ github.workspace }}/src/main/xsd/energyml/prodml/v2.0/xsd_schemas/ProdmlAllObjects.xsd
-        PATH_TO_XJB: ${{ github.workspace }}/src/main/xjb/binding-prodml2_2.xjb
+        PATH_TO_XJB: ${{ github.workspace }}/src/main/xjb/binding-prodml2_0.xjb
         PKG_NAME: prodml
         PKG_VERSION: 20
         RENAME_SCRIPT_ARG: "common::2.1 prodml::2.0"
