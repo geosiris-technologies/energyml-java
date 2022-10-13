@@ -3,7 +3,7 @@
     <groupId>com.geosiris</groupId>
     <artifactId>energyml-${env.PKG_NAME}${env.PKG_VERSION}</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <organization>
         <name>Geosiris</name>
         <url>http://www.geosiris.com</url>
@@ -44,19 +44,19 @@
         <sonar.organization>geosiris-technologies</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
-        <dependencies>
-            <dependency>
-                <groupId>jakarta.xml.bind</groupId>
-                <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>4.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>4.0.0</version>
-                <scope>runtime</scope>
-            </dependency>
-        </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>4.0.0</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
